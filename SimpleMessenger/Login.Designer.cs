@@ -31,8 +31,8 @@
             this.pnlLogin = new System.Windows.Forms.Panel();
             this.btnCreateNew = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtboxPass = new System.Windows.Forms.TextBox();
+            this.txtboxUser = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlLogin.SuspendLayout();
@@ -42,8 +42,8 @@
             // 
             this.pnlLogin.Controls.Add(this.btnCreateNew);
             this.pnlLogin.Controls.Add(this.btnLogin);
-            this.pnlLogin.Controls.Add(this.textBox2);
-            this.pnlLogin.Controls.Add(this.textBox1);
+            this.pnlLogin.Controls.Add(this.txtboxPass);
+            this.pnlLogin.Controls.Add(this.txtboxUser);
             this.pnlLogin.Controls.Add(this.label2);
             this.pnlLogin.Controls.Add(this.label1);
             this.pnlLogin.Location = new System.Drawing.Point(12, 12);
@@ -71,20 +71,20 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.BtnLogin_Click);
             // 
-            // textBox2
+            // txtboxPass
             // 
-            this.textBox2.Location = new System.Drawing.Point(169, 94);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 3;
+            this.txtboxPass.Location = new System.Drawing.Point(169, 94);
+            this.txtboxPass.Name = "txtboxPass";
+            this.txtboxPass.PasswordChar = '*';
+            this.txtboxPass.Size = new System.Drawing.Size(100, 20);
+            this.txtboxPass.TabIndex = 3;
             // 
-            // textBox1
+            // txtboxUser
             // 
-            this.textBox1.Location = new System.Drawing.Point(169, 71);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 2;
+            this.txtboxUser.Location = new System.Drawing.Point(169, 71);
+            this.txtboxUser.Name = "txtboxUser";
+            this.txtboxUser.Size = new System.Drawing.Size(100, 20);
+            this.txtboxUser.TabIndex = 2;
             // 
             // label2
             // 
@@ -123,8 +123,8 @@
         private System.Windows.Forms.Panel pnlLogin;
         private System.Windows.Forms.Button btnCreateNew;
         private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtboxPass;
+        private System.Windows.Forms.TextBox txtboxUser;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
     }

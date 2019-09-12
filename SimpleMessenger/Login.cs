@@ -19,7 +19,18 @@ namespace SimpleMessenger
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-
+            SQLQuery sqlFunction = new SQLQuery();
+            try
+            {
+                sqlFunction.ValidateLogin(txtboxUser.Text,txtboxPass.Text);
+                Global.username = txtboxUser.Text;
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
         }
 
         private void BtnCreateNew_Click(object sender, EventArgs e)

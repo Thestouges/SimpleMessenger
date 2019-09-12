@@ -21,6 +21,10 @@ namespace SimpleMessenger
         {
             Login login = new Login();
             login.ShowDialog();
+            if(Global.username == "")
+            {
+                this.Close();
+            }
         }
     }
 }

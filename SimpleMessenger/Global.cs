@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-public class Globals
+namespace SimpleMessenger
 {
-    string username = "";
+    public static class Global
+    {
+        public static string username = "";
+    }
 }
-

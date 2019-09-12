@@ -60,6 +60,7 @@ BEGIN
 	where MessageID < MessageID
 	order by MessageID desc
 END
+go
 
 ALTER PROCEDURE [dbo].[GetRecentMessages] 
 	-- Add the parameters for the stored procedure here
