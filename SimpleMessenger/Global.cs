@@ -17,5 +17,7 @@ namespace SimpleMessenger
             public DateTime datetime;
             public string user;
         }
+
+       public static List<Global.MessageObject> MessageList;
     }
 }

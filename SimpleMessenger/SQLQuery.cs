@@ -149,8 +149,8 @@ namespace SimpleMessenger {
 
             if (messageid != -1)
             {
-                cmd.Parameters.Add("@user", SqlDbType.NVarChar);
-                cmd.Parameters["@user"].Value = messageid;
+                cmd.Parameters.Add("@messageid", SqlDbType.NVarChar);
+                cmd.Parameters["@messageid"].Value = messageid;
             }
 
             SqlDataAdapter sqladap = new SqlDataAdapter(cmd);

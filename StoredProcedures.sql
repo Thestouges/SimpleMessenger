@@ -60,6 +60,7 @@ BEGIN
 	insert into UserMessage([User], Message1,timestamp)
 	values(@user, @message, GETDATE())
 END
+go
 
 ALTER PROCEDURE [dbo].[GetLoggedInUserList]
 	-- Add the parameters for the stored procedure here
@@ -103,7 +104,7 @@ BEGIN
 	if @messageid = -1
 		Begin
 			select top 50 * from UserMessage
-			order by MessageID desc
+			order by MessageID asc
 		End
 	else
 		Begin

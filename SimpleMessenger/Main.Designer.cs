@@ -72,7 +72,7 @@
             this.lvMessages.Size = new System.Drawing.Size(591, 288);
             this.lvMessages.TabIndex = 3;
             this.lvMessages.UseCompatibleStateImageBehavior = false;
-            this.lvMessages.View = System.Windows.Forms.View.Tile;
+            this.lvMessages.View = System.Windows.Forms.View.List;
             // 
             // menuStrip1
             // 
@@ -97,8 +97,9 @@
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -118,7 +119,6 @@
             // 
             // timer1
             // 
-            this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
@@ -137,7 +137,6 @@
             this.Text = "Simple Messenger";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
-            this.ClientSizeChanged += new System.EventHandler(this.Main_ClientSizeChanged);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

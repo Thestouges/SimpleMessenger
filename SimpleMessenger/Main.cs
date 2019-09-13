@@ -12,7 +12,6 @@ namespace SimpleMessenger
 {
     public partial class Main : Form
     {
-        List<Global.MessageObject> MessageList;
         public Main()
         {
             InitializeComponent();
@@ -27,18 +26,15 @@ namespace SimpleMessenger
                 this.Close();
             }
 
-            setMessageTileSize();
+            timer1.Enabled = true;
             SQLQuery sqlq = new SQLQuery();
             sqlq.SetLogIn(Global.username);
-            MessageList = new List<Global.MessageObject>();
+            Global.MessageList = new List<Global.MessageObject>();
             PopulateUserList();
-        }
+            PopulateRecentMessages();
 
-        private void setMessageTileSize()
-        {
-            double newWidth = lvMessages.Width - (lvMessages.Width * 0.05);
-            double newHeight = 30;
-            lvMessages.TileSize = new Size((int)newWidth,(int)newHeight);
+            this.AcceptButton = btnSend;
+
         }
 
         private void PopulateUserList()
@@ -62,7 +58,14 @@ namespace SimpleMessenger
         private void Timer1_Tick(object sender, EventArgs e)
         {
             PopulateUserList();
-            //PopulateMessages();
+            try
+            {
+                PopulateRecentMessages((int)(lvMessages.Items[lvMessages.Items.Count - 1].Tag));
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         private void BtnSend_Click(object sender, EventArgs e)
@@ -74,21 +77,42 @@ namespace SimpleMessenger
 
             SQLQuery sqlq = new SQLQuery();
             sqlq.EnterMessage(txtboxMessage.Text.Trim());
+            txtboxMessage.Text = "";
+            PopulateRecentMessages((int)(lvMessages.Items[lvMessages.Items.Count - 1].Tag));
         }
 
-        private void PopulateMessages()
+        private void PopulateRecentMessages(int index = -1)
         {
-            string[] array = { "cat"};
-            var items = lvMessages.Items;
-            foreach (var value in array)
+            SQLQuery sqlq = new SQLQuery();
+            Global.MessageList.Clear();
+            if (index == -1)
             {
-                items.Add(value);
+                Global.MessageList.AddRange(sqlq.GetRecentMessages());
+            }
+            else
+            {
+                Global.MessageList.AddRange(sqlq.GetRecentMessages(index));
+            }
+
+            foreach (Global.MessageObject value in Global.MessageList)
+            {
+                ListViewItem item = new ListViewItem();
+                item.Tag = value.MessageID;
+                item.Text = "[" + value.user+"] : "+value.Message;
+                lvMessages.Items.Add(item);
             }
         }
 
-        private void Main_ClientSizeChanged(object sender, EventArgs e)
+        private void RefreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            setMessageTileSize();
+            if(lvMessages.Items.Count == 0)
+            {
+                PopulateRecentMessages();
+            }
+            else
+            {
+                PopulateRecentMessages((int)(lvMessages.Items[0].Tag));
+            }
         }
     }
 }

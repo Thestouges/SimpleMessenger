@@ -60,5 +60,10 @@ namespace SimpleMessenger
                 return;
             }
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            this.AcceptButton = btnLogin;
+        }
     }
 }
