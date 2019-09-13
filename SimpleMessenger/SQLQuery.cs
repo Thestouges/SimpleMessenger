@@ -2,45 +2,198 @@
 using System.Data;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
-public class SQLQuery
-{
-    string connectionStr;
-
-    public SQLQuery()
+namespace SimpleMessenger {
+    public class SQLQuery
     {
-        connectionStr = File.ReadAllText("SQLConnectionString.txt");
-    }
+        string connectionStr;
 
-    public void ValidateLogin(string user, string pass)
-    {
-        SqlConnection conn = new SqlConnection(connectionStr);
-        SqlCommand cmd = new SqlCommand("CheckLogin",conn);
-        cmd.CommandType = CommandType.StoredProcedure;
+        public SQLQuery()
+        {
+            connectionStr = File.ReadAllText("SQLConnectionString.txt");
+        }
 
-        cmd.Parameters.Add("@user", SqlDbType.NVarChar);
-        cmd.Parameters.Add("@password", SqlDbType.NVarChar);
-        cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
+        public void CreateLogin(string user, string pass)
+        {
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand cmd = new SqlCommand("AddUser", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-        cmd.Parameters["@user"].Value = user;
-        cmd.Parameters["@password"].Value = user;
-        try {
-            conn.Open();
-            cmd.ExecuteNonQuery();
+            cmd.Parameters.Add("@user", SqlDbType.NVarChar);
+            cmd.Parameters.Add("@password", SqlDbType.NVarChar);
+            cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
 
-            if(cmd.Parameters["@output"].Value.ToString() == "1")
+            cmd.Parameters["@user"].Value = user;
+            cmd.Parameters["@password"].Value = pass;
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+
+                if (cmd.Parameters["@output"].Value.ToString() == "1")
+                {
+                    conn.Close();
+                    throw new Exception("Username already exists");
+                }
+
+                conn.Close();
+            }
+            catch (Exception ex)
             {
                 conn.Close();
-                throw new Exception("Incorrect Username/Password");
+                throw new Exception(ex.Message);
+            }
+        }
+        public void ValidateLogin(string user, string pass)
+        {
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand cmd = new SqlCommand("CheckLogin", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@user", SqlDbType.NVarChar);
+            cmd.Parameters.Add("@password", SqlDbType.NVarChar);
+            cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+            cmd.Parameters["@user"].Value = user;
+            cmd.Parameters["@password"].Value = pass;
+            try {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+
+                if (cmd.Parameters["@output"].Value.ToString() == "1")
+                {
+                    conn.Close();
+                    throw new Exception("Incorrect Username/Password");
+                }
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void SetLogIn(string user)
+        {
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand cmd = new SqlCommand("Login", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@user", SqlDbType.NVarChar);
+
+            cmd.Parameters["@user"].Value = user;
+            conn.Open();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void SetLogOut(string user)
+        {
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand cmd = new SqlCommand("Logout", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@user", SqlDbType.NVarChar);
+
+            cmd.Parameters["@user"].Value = user;
+            conn.Open();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<string> GetLoggedInUserList()
+        {
+            List<string> result = new List<string>();
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand cmd = new SqlCommand("GetLoggedInUserList", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlDataAdapter sqladap = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sqladap.Fill(dt);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(row["User"].ToString());
             }
 
-            conn.Close();
+            return result;
         }
-        catch(Exception ex)
+
+        public List<Global.MessageObject> GetRecentMessages(int messageid = -1)
         {
-            conn.Close();
-            throw new Exception(ex.Message);
+            List<Global.MessageObject> result = new List<Global.MessageObject>();
+
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand cmd = new SqlCommand("GetRecentMessages", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            if (messageid != -1)
+            {
+                cmd.Parameters.Add("@user", SqlDbType.NVarChar);
+                cmd.Parameters["@user"].Value = messageid;
+            }
+
+            SqlDataAdapter sqladap = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sqladap.Fill(dt);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                Global.MessageObject MsgObj = new Global.MessageObject();
+
+                MsgObj.user = row["User"].ToString();
+                MsgObj.Message = row["Message1"].ToString();
+                MsgObj.MessageID = (int)row["MessageID"];
+                MsgObj.datetime = DateTime.Parse(row["timestamp"].ToString());
+
+                result.Add(MsgObj);
+            }
+
+            return result;
+        }
+
+        public void EnterMessage(string message)
+        {
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand cmd = new SqlCommand("EnterMessage", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@user", SqlDbType.NVarChar);
+            cmd.Parameters.Add("@message", SqlDbType.NVarChar);
+            cmd.Parameters["@user"].Value = Global.username;
+            cmd.Parameters["@message"].Value = message;
+
+            conn.Open();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                throw new Exception(ex.Message);
+            }
         }
     }
-
 }

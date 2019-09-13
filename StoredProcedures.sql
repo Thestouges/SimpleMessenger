@@ -46,6 +46,34 @@ BEGIN
 END
 Go
 
+ALTER PROCEDURE [dbo].[EnterMessage]
+	-- Add the parameters for the stored procedure here
+	@user nvarchar(30),
+	@message nvarchar(max)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	insert into UserMessage([User], Message1,timestamp)
+	values(@user, @message, GETDATE())
+END
+
+ALTER PROCEDURE [dbo].[GetLoggedInUserList]
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	select * from UserAccount where LoggedIn = 'Y'
+END
+go
+
 ALTER PROCEDURE [dbo].[GetPastMessages]
 	-- Add the parameters for the stored procedure here
 	@messageid int

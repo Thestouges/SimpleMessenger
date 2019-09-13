@@ -8,7 +8,7 @@ GO
 CREATE TABLE [dbo].[UserMessage](
 	[User] [nvarchar](30) NULL,
 	[Message1] [nvarchar](max) NULL,
-	[timestamp] [timestamp] NOT NULL,
+	[timestamp] [datetime] NOT NULL,
 	[MessageID] [int] IDENTITY(1,1) NOT NULL,
  CONSTRAINT [PK_UserMessage] PRIMARY KEY CLUSTERED 
 (

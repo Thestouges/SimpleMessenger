@@ -19,6 +19,12 @@ namespace SimpleMessenger
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
+            if (txtboxPass.Text.Trim() == "" || txtboxUser.Text.Trim() == "")
+            {
+                MessageBox.Show("Please enter Username and Password");
+                return;
+            }
+
             SQLQuery sqlFunction = new SQLQuery();
             try
             {
@@ -35,7 +41,24 @@ namespace SimpleMessenger
 
         private void BtnCreateNew_Click(object sender, EventArgs e)
         {
+            if (txtboxPass.Text.Trim() == "" || txtboxUser.Text.Trim() == "")
+            {
+                MessageBox.Show("Please enter Username and Password");
+                return;
+            }
 
+            SQLQuery sqlFunction = new SQLQuery();
+            try
+            {
+                sqlFunction.CreateLogin(txtboxUser.Text, txtboxPass.Text);
+                Global.username = txtboxUser.Text;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
         }
     }
 }
