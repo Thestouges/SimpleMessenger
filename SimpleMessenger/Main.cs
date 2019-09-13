@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SimpleMessenger
 {
@@ -19,6 +20,21 @@ namespace SimpleMessenger
 
         private void Main_Load(object sender, EventArgs e)
         {
+            if (!File.Exists("SQLConnectionString.txt"))
+            {
+                DatabaseInfo getconnStr = new DatabaseInfo();
+                getconnStr.ShowDialog();
+            }
+            else
+            {
+                Global.connectionStr = File.ReadAllText("SQLConnectionString.txt");
+            }
+
+            if(Global.connectionStr == "")
+            {
+                this.Close();
+            }
+
             Login login = new Login();
             login.ShowDialog();
             if(Global.username == "")
@@ -52,8 +68,15 @@ namespace SimpleMessenger
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SQLQuery sqlq = new SQLQuery();
-            sqlq.SetLogOut(Global.username);
+            try
+            {
+                SQLQuery sqlq = new SQLQuery();
+                sqlq.SetLogOut(Global.username);
+            }
+            catch
+            {
+
+            }
         }
 
         private void Timer1_Tick(object sender, EventArgs e)

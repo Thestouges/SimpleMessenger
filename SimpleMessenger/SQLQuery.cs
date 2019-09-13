@@ -7,16 +7,9 @@ using System.Collections.Generic;
 namespace SimpleMessenger {
     public class SQLQuery
     {
-        string connectionStr;
-
-        public SQLQuery()
-        {
-            connectionStr = File.ReadAllText("SQLConnectionString.txt");
-        }
-
         public void CreateLogin(string user, string pass)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlConnection conn = new SqlConnection(Global.connectionStr);
             SqlCommand cmd = new SqlCommand("AddUser", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -47,7 +40,7 @@ namespace SimpleMessenger {
         }
         public void ValidateLogin(string user, string pass)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlConnection conn = new SqlConnection(Global.connectionStr);
             SqlCommand cmd = new SqlCommand("CheckLogin", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -78,7 +71,7 @@ namespace SimpleMessenger {
 
         public void SetLogIn(string user)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlConnection conn = new SqlConnection(Global.connectionStr);
             SqlCommand cmd = new SqlCommand("Login", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -100,7 +93,7 @@ namespace SimpleMessenger {
 
         public void SetLogOut(string user)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlConnection conn = new SqlConnection(Global.connectionStr);
             SqlCommand cmd = new SqlCommand("Logout", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -123,7 +116,7 @@ namespace SimpleMessenger {
         public List<string> GetLoggedInUserList()
         {
             List<string> result = new List<string>();
-            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlConnection conn = new SqlConnection(Global.connectionStr);
             SqlCommand cmd = new SqlCommand("GetLoggedInUserList", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -143,7 +136,7 @@ namespace SimpleMessenger {
         {
             List<Global.MessageObject> result = new List<Global.MessageObject>();
 
-            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlConnection conn = new SqlConnection(Global.connectionStr);
             SqlCommand cmd = new SqlCommand("GetRecentMessages", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -174,7 +167,7 @@ namespace SimpleMessenger {
 
         public void EnterMessage(string message)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlConnection conn = new SqlConnection(Global.connectionStr);
             SqlCommand cmd = new SqlCommand("EnterMessage", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 

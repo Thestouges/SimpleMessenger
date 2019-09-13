@@ -9,6 +9,7 @@ namespace SimpleMessenger
     public static class Global
     {
         public static string username = "";
+        public static string connectionStr = "";
 
         public struct MessageObject
         {
