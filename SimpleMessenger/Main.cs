@@ -33,6 +33,7 @@ namespace SimpleMessenger
             PopulateUserList();
             PopulateRecentMessages();
 
+            
             this.AcceptButton = btnSend;
 
         }
@@ -98,9 +99,17 @@ namespace SimpleMessenger
             {
                 ListViewItem item = new ListViewItem();
                 item.Tag = value.MessageID;
-                item.Text = "[" + value.user+"] : "+value.Message;
+                item.Text = "[" + value.datetime.ToString()+"]";
+                item.Name = "Time";
+                ListViewItem.ListViewSubItem subItem = new ListViewItem.ListViewSubItem(item, "Message");
+                subItem.Name = "Message";
+                subItem.Text = "[" + value.user + "] : " + value.Message;
+                item.SubItems.Add(subItem);
                 lvMessages.Items.Add(item);
             }
+
+            lvMessages.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            lvMessages.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void RefreshToolStripMenuItem_Click(object sender, EventArgs e)
@@ -111,7 +120,7 @@ namespace SimpleMessenger
             }
             else
             {
-                PopulateRecentMessages((int)(lvMessages.Items[0].Tag));
+                PopulateRecentMessages((int)(lvMessages.Items[lvMessages.Items.Count - 1].Tag));
             }
         }
     }

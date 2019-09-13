@@ -38,6 +38,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbUser = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Message = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,12 +69,16 @@
             this.lvMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvMessages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Time,
+            this.Message});
+            this.lvMessages.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvMessages.Location = new System.Drawing.Point(0, 27);
             this.lvMessages.Name = "lvMessages";
             this.lvMessages.Size = new System.Drawing.Size(591, 288);
             this.lvMessages.TabIndex = 3;
             this.lvMessages.UseCompatibleStateImageBehavior = false;
-            this.lvMessages.View = System.Windows.Forms.View.List;
+            this.lvMessages.View = System.Windows.Forms.View.Details;
             // 
             // menuStrip1
             // 
@@ -97,7 +103,7 @@
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
             // 
@@ -121,6 +127,14 @@
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            // 
+            // Time
+            // 
+            this.Time.Text = "Time";
+            // 
+            // Message
+            // 
+            this.Message.Text = "Message";
             // 
             // Main
             // 
@@ -155,6 +169,8 @@
         private System.Windows.Forms.ListBox lbUser;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader Time;
+        private System.Windows.Forms.ColumnHeader Message;
     }
 }
 
