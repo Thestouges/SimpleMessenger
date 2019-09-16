@@ -32,14 +32,14 @@
             this.txtboxMessage = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.lvMessages = new System.Windows.Forms.ListView();
+            this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Message = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbUser = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Message = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,6 +79,14 @@
             this.lvMessages.TabIndex = 3;
             this.lvMessages.UseCompatibleStateImageBehavior = false;
             this.lvMessages.View = System.Windows.Forms.View.Details;
+            // 
+            // Time
+            // 
+            this.Time.Text = "Time";
+            // 
+            // Message
+            // 
+            this.Message.Text = "Message";
             // 
             // menuStrip1
             // 
@@ -127,14 +135,6 @@
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
-            // 
-            // Time
-            // 
-            this.Time.Text = "Time";
-            // 
-            // Message
-            // 
-            this.Message.Text = "Message";
             // 
             // Main
             // 

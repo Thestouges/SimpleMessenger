@@ -8,11 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace SimpleMessenger
 {
     public partial class Main : Form
     {
+        int lastreadMessage = -1;
         public Main()
         {
             InitializeComponent();
@@ -52,6 +55,8 @@ namespace SimpleMessenger
             
             this.AcceptButton = btnSend;
 
+            lvMessages.Items[lvMessages.Items.Count - 1].EnsureVisible();
+            lastreadMessage = lvMessages.Items.Count - 1;
         }
 
         private void PopulateUserList()
@@ -85,6 +90,14 @@ namespace SimpleMessenger
             try
             {
                 PopulateRecentMessages((int)(lvMessages.Items[lvMessages.Items.Count - 1].Tag));
+                if (ApplicationIsActivated() && lastreadMessage != -1)
+                {
+                    if (lvMessages.Items[lvMessages.Items.Count - 1].Bounds.IntersectsWith(lvMessages.ClientRectangle))
+                    {
+                        lvMessages.Items[lastreadMessage].EnsureVisible();
+                        lastreadMessage = lvMessages.Items.Count - 1;
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -103,6 +116,8 @@ namespace SimpleMessenger
             sqlq.EnterMessage(txtboxMessage.Text.Trim());
             txtboxMessage.Text = "";
             PopulateRecentMessages((int)(lvMessages.Items[lvMessages.Items.Count - 1].Tag));
+            lvMessages.Items[lvMessages.Items.Count - 1].EnsureVisible();
+            lastreadMessage = lvMessages.Items.Count - 1;
         }
 
         private void PopulateRecentMessages(int index = -1)
@@ -145,6 +160,27 @@ namespace SimpleMessenger
             {
                 PopulateRecentMessages((int)(lvMessages.Items[lvMessages.Items.Count - 1].Tag));
             }
+        }
+
+        /// <summary>Returns true if the current application has focus, false otherwise</summary>
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
+        public static bool ApplicationIsActivated()
+        {
+            var activatedHandle = GetForegroundWindow();
+            if (activatedHandle == IntPtr.Zero)
+            {
+                return false;       // No window is currently activated
+            }
+
+            var procId = Process.GetCurrentProcess().Id;
+            int activeProcId;
+            GetWindowThreadProcessId(activatedHandle, out activeProcId);
+
+            return activeProcId == procId;
         }
     }
 }
