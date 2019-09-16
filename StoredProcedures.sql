@@ -86,7 +86,7 @@ BEGIN
 
     -- Insert statements for procedure here
 	select top 50 * from UserMessage
-	where MessageID < MessageID
+	where MessageID < @messageid
 	order by MessageID desc
 END
 go
@@ -103,7 +103,9 @@ BEGIN
     -- Insert statements for procedure here
 	if @messageid = -1
 		Begin
+			select * from(
 			select top 50 * from UserMessage
+			order by MessageID desc) as a
 			order by MessageID asc
 		End
 	else

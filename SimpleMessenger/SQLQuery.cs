@@ -188,5 +188,35 @@ namespace SimpleMessenger {
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<Global.MessageObject> GetPastMessages(int messageid)
+        {
+            List<Global.MessageObject> result = new List<Global.MessageObject>();
+
+            SqlConnection conn = new SqlConnection(Global.connectionStr);
+            SqlCommand cmd = new SqlCommand("GetPastMessages", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@messageid", SqlDbType.NVarChar);
+            cmd.Parameters["@messageid"].Value = messageid;
+
+            SqlDataAdapter sqladap = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sqladap.Fill(dt);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                Global.MessageObject MsgObj = new Global.MessageObject();
+
+                MsgObj.user = row["User"].ToString();
+                MsgObj.Message = row["Message1"].ToString();
+                MsgObj.MessageID = (int)row["MessageID"];
+                MsgObj.datetime = DateTime.Parse(row["timestamp"].ToString());
+
+                result.Add(MsgObj);
+            }
+
+            return result;
+        }
     }
 }

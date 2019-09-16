@@ -97,6 +97,27 @@ namespace SimpleMessenger
                         lvMessages.Items[lastreadMessage].EnsureVisible();
                         lastreadMessage = lvMessages.Items.Count - 1;
                     }
+                    if (lvMessages.Items[0].Bounds.IntersectsWith(lvMessages.ClientRectangle))
+                    {
+                        SQLQuery sqlq = new SQLQuery();
+                        Global.MessageList.Clear();
+                        Global.MessageList.AddRange(sqlq.GetPastMessages((int)lvMessages.Items[0].Tag));
+
+                        foreach (Global.MessageObject value in Global.MessageList)
+                        {
+                            ListViewItem item = new ListViewItem();
+                            item.Tag = value.MessageID;
+                            item.Text = "[" + value.datetime.ToString() + "]";
+                            item.Name = "Time";
+                            ListViewItem.ListViewSubItem subItem = new ListViewItem.ListViewSubItem(item, "Message");
+                            subItem.Name = "Message";
+                            subItem.Text = "[" + value.user + "] : " + value.Message;
+                            item.SubItems.Add(subItem);
+                            lvMessages.Items.Insert(0, item);
+                            lastreadMessage++;
+                            
+                        }
+                    }
                 }
             }
             catch(Exception ex)
